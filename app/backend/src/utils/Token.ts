@@ -1,7 +1,10 @@
 import * as jwt from 'jsonwebtoken';
-import IAuthorization from '../interfaces/IAuthorization';
 
 const SECRET = process.env.SECRET || 'jwt_scret';
+
+interface IAuthorization {
+  generateToken(payload: { id: number, role: string }): Promise<string>;
+}
 
 const jwtConfig: jwt.SignOptions = {
   algorithm: 'HS256',
