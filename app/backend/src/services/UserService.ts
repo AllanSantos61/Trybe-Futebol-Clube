@@ -1,16 +1,26 @@
-import User from 'src/database/models/User';
-import ILogin from 'src/interfaces/ILogin';
-import IUserService from 'src/interfaces/IUserService';
-import Token from 'src/utils/Token';
+import { compare } from 'bcryptjs';
+import IUserService from '../interfaces/IUserService';
+import HttpException from '../utils/HttpExecpetion';
+import Token from '../utils/Token';
+import ILogin from '../interfaces/ILogin';
+import User from '../database/models/User';
+import validation from './validations/validation';
+import { loginSchema } from './validations/schemas';
 
-interface IUserService {
-  login(login: ILogin): Promise<string>
-}
-class UserService implements IUserService {
+export default class UserService implements IUserService {
   constructor(
-    private _userModel = User;
-    private _token = Token;
-  )
-}
+    private _userModel = User,
+    private _token = new Token(),
+  ) {}
 
-export default UserService;
+  login = async (login: ILogin): Promise<string> => {
+    validation(loginSchema, login);
+    const user = await this._userModel.findOne({ where: { email: login.email } });
+    if (!user || !(await compare(login.password, user.password))) {
+      throw new HttpException(401, 'Incorrect email or password');
+    }
+    const token = this._token.generateToken({ id: user.id, role: user.role });
+
+    return token;
+  };
+}
