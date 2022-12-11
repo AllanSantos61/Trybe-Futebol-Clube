@@ -1,6 +1,6 @@
 import * as jwt from 'jsonwebtoken';
 
-const SECRET = process.env.SECRET || 'jwt_scret';
+const SECRET = process.env.SECRET || 'jwt_secret';
 
 interface IAuthorization {
   generateToken(payload: { id: number, role: string }): Promise<string>;

@@ -1,10 +1,10 @@
 import { Model, INTEGER, STRING } from 'sequelize';
-import IUser from '../../interfaces/IUser';
+import { ICreateUser, IUser } from '../../interfaces/IUser';
 import db from '.';
 
-export default class User extends Model implements IUser {
+export default class User extends Model<IUser, ICreateUser> {
   declare id: number;
-  declare userName: string;
+  declare username: string;
   declare role: string;
   declare email: string;
   declare password: string;
@@ -17,22 +17,10 @@ User.init({
     primaryKey: true,
     type: INTEGER,
   },
-  username: {
-    allowNull: false,
-    type: STRING,
-  },
-  role: {
-    allowNull: false,
-    type: STRING,
-  },
-  email: {
-    allowNull: false,
-    type: STRING,
-  },
-  password: {
-    allowNull: false,
-    type: STRING,
-  },
+  username: STRING,
+  role: STRING,
+  email: STRING,
+  password: STRING,
 }, {
   underscored: true,
   sequelize: db,

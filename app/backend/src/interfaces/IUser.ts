@@ -1,9 +1,11 @@
-import ILogin from './ILogin';
-
-interface IUser extends ILogin {
+export interface IUser {
   id: number;
-  userName: string;
+  username: string;
   role: string;
+  email: string;
+  password: string;
 }
 
-export default IUser;
+export type ICreateUser = Omit<IUser, 'id'>;
+
+export type IReturnUser = Omit<IUser, 'password'>;
