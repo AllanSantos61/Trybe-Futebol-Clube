@@ -1,23 +1,23 @@
-import ILogin from '../interfaces/ILogin';
 import { Request, Response } from 'express';
 import UserService from '../services/UserService';
 
-interface IUserController {
-  login(req: Request<ILogin>, res: Response): void
-}
+export default class UserController {
+  private _userService = UserService;
 
-export default class UserController implements IUserController {
-  constructor(
-    private _userService = new UserService()
-  ) {}
+  constructor() {
+    this._userService = new UserService();
+    this.login = this.login.bind(this);
+    this.getRole = this.getRole.bind(this);
+  }
 
-  login = async (req: Request<ILogin>, res: Response) => {
+  async login(req: Request, res: Response): Promise<void> {
     const token = await this._userService.login(req.body);
     res.status(200).json({ token });
-  };
+  }
 
-  getRole = (req: Request, res: Response) => {
-    const { user } = req.body;
-    res.status(200).json({role: user.role});
-  };
+  async getRole(_req: Request, res: Response): Promise<void> {
+    const { data: { id } } = res.locals.userIddentifier;
+    const role = await this._userService.getRole(id);
+    res.status(200).json({ role });
+  }
 }
