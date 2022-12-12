@@ -15,18 +15,14 @@ const loginSchema: Joi.Schema = Joi.object({
   }),
 });
 
-const scoreSchema: Joi.Schema = Joi.object({
-  homeTeamGoals: Joi.number().min(0).required().messages({
-    'number.empty': FIELD_REQUIRED,
-    'any.required': FIELD_REQUIRED,
-  }),
-  awayTeamGoals: Joi.number().min(0).required().messages({
-    'number.empty': FIELD_REQUIRED,
-    'any.required': FIELD_REQUIRED,
-  }),
+const matchSchema: Joi.Schema = Joi.object({
+  homeTeamGoals: Joi.number().min(0).required(),
+  awayTeamGoals: Joi.number().min(0).required(),
+  homeTeam: Joi.number().required(),
+  awayTeam: Joi.number().required(),
 });
 
 export {
   loginSchema,
-  scoreSchema,
+  matchSchema,
 };

@@ -1,18 +1,28 @@
+import { NextFunction } from 'express';
 import * as jwt from 'jsonwebtoken';
+import ITokenPayload from '../interfaces/IToken';
+import { IUser } from '../interfaces/IUser';
 
 const SECRET = process.env.SECRET || 'jwt_secret';
 
-interface IAuthorization {
-  generateToken(payload: { id: number, role: string }): Promise<string>;
-}
+export default class Token {
+  static generate({ id, email }: IUser): string {
+    return jwt.sign({ data: { id, email } }, SECRET, {
+      algorithm: 'HS256',
+      expiresIn: '1d',
 
-const jwtConfig: jwt.SignOptions = {
-  algorithm: 'HS256',
-  expiresIn: '1d',
-};
+    });
+  }
 
-export default class Token implements IAuthorization {
-  public generateToken = async (payload: { id: number, role: string }) => {
-    jwt.sign(payload, SECRET, jwtConfig);
-  };
+  static async authenticate(
+    token: string,
+    next: NextFunction,
+  ): Promise<ITokenPayload | void> {
+    try {
+      const payload = await jwt.verify(token, SECRET);
+      return payload as ITokenPayload;
+    } catch (e) {
+      return next({ status: 401, message: 'Token must be a valid token' });
+    }
+  }
 }
