@@ -1,13 +1,13 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
-// import { IMatchService } from '../interfaces/IMatchService';
+import { IMatchService } from '../interfaces/IMatchService';
 import MatchService from '../services/MatchService';
 
 export default class MatchController {
 //   private _matchService = MatchService;
 
-  constructor(private _matchService = new MatchService()) {
-    // this._matchService = new MatchService();
+  constructor(private _matchService: IMatchService) {
+    this._matchService = new MatchService();
     this.listAll = this.listAll.bind(this);
     this.create = this.create.bind(this);
     this.finish = this.finish.bind(this);
@@ -35,8 +35,7 @@ export default class MatchController {
 
   async update(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
-    const { user, ...body } = req.body;
-    await this._matchService.update(body, Number(id));
+    await this._matchService.update(req.body, Number(id));
     res.status(StatusCodes.OK).json({ message: 'Successfully updated!' });
   }
 }
