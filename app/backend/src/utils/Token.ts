@@ -8,9 +8,8 @@ const SECRET = process.env.SECRET || 'jwt_secret';
 export default class Token {
   static generate({ id, email }: IUser): string {
     return jwt.sign({ data: { id, email } }, SECRET, {
+      expiresIn: '24h',
       algorithm: 'HS256',
-      expiresIn: '1d',
-
     });
   }
 

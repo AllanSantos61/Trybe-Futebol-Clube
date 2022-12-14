@@ -1,13 +1,16 @@
-// import 'express-async-errors';
-// import { Router } from 'express';
-// import authMiddleware from '../middlewares/authMiddleware';
-// import UserController from '../controllers/UserController';
+import 'express-async-errors';
+import { Router } from 'express';
+import authMiddleware from '../middlewares/authMiddleware';
+import UserController from '../controllers/UserController';
+import UserService from '../services/UserService';
 
-// const router = Router();
+const router = Router();
 
-// const userController = new UserController();
+const userService = new UserService();
 
-// router.get('/validate', authMiddleware, userController.getRole);
-// router.post('/', userController.login);
+const userController = new UserController(userService);
 
-// export default router;
+router.get('/validate', authMiddleware, userController.getRole);
+router.post('/', userController.login);
+
+export default router;
