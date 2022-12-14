@@ -4,10 +4,10 @@ import { ILeaderboardService } from '../interfaces/ILeaderboardService';
 import LeaderboardService from '../services/LeaderboardService';
 
 export default class LeaderboardController {
-  // private _leaderboardService = LeaderboardService;
+  private _leaderboardService: ILeaderboardService;
 
-  constructor(private _leaderboardService: ILeaderboardService) {
-    // this._leaderBoardService = new LeaderboardService();
+  constructor() {
+    this._leaderboardService = new LeaderboardService();
     this.listHomeTeams = this.listHomeTeams.bind(this);
     this.listAwayTeams = this.listAwayTeams.bind(this);
     this.getFullLeaderboard = this.getFullLeaderboard.bind(this);
