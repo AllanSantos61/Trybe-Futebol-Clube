@@ -3,6 +3,7 @@ import HttpException from '../utils/HttpExecpetion';
 import Match from '../database/models/Match';
 import Team from '../database/models/Team';
 import { matchSchema } from './validations/schemas';
+// import { IMatchService } from '../interfaces/IMatchService';
 
 const INCLUDE_OPTIONS = [
   { model: Team, as: 'teamHome', attributes: ['teamName'] },
@@ -29,7 +30,8 @@ export default class MatchService {
     return matches;
   }
 
-  private static validateMatchSchema(match: ICreateMatch): void {
+  validateMatchSchema(match: ICreateMatch): void {
+    console.log(this._matchModel);
     const { error } = matchSchema.validate(match);
     if (error) throw new HttpException(400, 'All fields must be filled');
   }
@@ -53,7 +55,7 @@ export default class MatchService {
   }
 
   async create(match: ICreateMatch): Promise<IMatch> {
-    MatchService.validateMatchSchema(match);
+    this.validateMatchSchema(match);
     await this.validateMatchTeams(match);
 
     const newMatch = await this._matchModel.create({
