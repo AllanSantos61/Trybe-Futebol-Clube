@@ -1,19 +1,14 @@
 import { NextFunction, Request, Response } from 'express';
-import * as jwt from 'jsonwebtoken';
-import HttpException from '../utils/HttpExecpetion';
+import Token from '../utils/Token';
 
-async function authMiddleware(req:Request, _res: Response, next: NextFunction) {
-  const { authorization: token } = req.headers;
-  if (!token) {
-    throw new HttpException(401, 'Token not found');
-  }
-  try {
-    const payload = await jwt.verify(token, process.env.JWT_SECRET as string);
-    req.body.user = payload;
-    next();
-  } catch (err) {
-    throw new HttpException(401, 'Token must be a valid token');
-  }
+async function authMiddleware(
+  req:Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> {
+  const token: string = req.headers.authorization || '';
+  res.locals.userIddentifier = await Token.authenticate(token, next);
+  next();
 }
 
 export default authMiddleware;

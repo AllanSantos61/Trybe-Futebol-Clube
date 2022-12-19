@@ -1,13 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 import HttpException from '../utils/HttpExecpetion';
 
-const httpErrorMiddleware = (err: Error, _req: Request, res: Response, next: NextFunction) => {
-  console.log('err', err);
+function httpErrorMiddleware(err: Error, _req: Request, res: Response, _next: NextFunction): void {
   const { status, message } = err as HttpException;
-  if (status) {
-    res.status(status || 500).json({ message });
-  }
-  next();
-};
+  res.status(status || 500).json({ message });
+}
 
 export default httpErrorMiddleware;
