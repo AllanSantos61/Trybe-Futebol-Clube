@@ -12,7 +12,6 @@ import User from '../database/models/User';
 import {
   dataToken, invalidLogins, loginMock, userMock,
 } from './mocks/userMock';
-import { afterEach } from 'node:test';
 import { StatusCodes } from 'http-status-codes';
 
 chai.use(chaiHttp);
@@ -33,7 +32,7 @@ describe('/login', () => {
     describe('OK', () => {
       test('Login OK', async () => {
         sinon.stub(User, 'findOne').resolves(userMock as User);
-        sinon.stub(jsonwebtoken, 'sign').resolves('generateToken');
+        sinon.stub(jsonwebtoken, 'sign').resolves('generatedToken');
         sinon.stub(bcryptjs, 'compare').resolves(true);
 
         chaiHttpResponse = await chai
@@ -43,7 +42,7 @@ describe('/login', () => {
 
           expect(chaiHttpResponse.status).to.be.equal(StatusCodes.OK);
           expect(chaiHttpResponse.body).to.deep.equal({
-            token: 'generateToken',
+            token: 'generatedToken',
           });
           (jsonwebtoken.sign as sinon.SinonStub).restore();
       }); 

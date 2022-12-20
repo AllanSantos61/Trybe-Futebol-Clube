@@ -1,8 +1,8 @@
 import ILogin from '../../interfaces/ILogin';
-import IToken from '../../interfaces/IToken'
-import IUser from '../../interfaces/IUser'
+import ITokenPayload from '../../interfaces/ITokenPayload'
+import { IUser } from '../../interfaces/IUser'
 
-export const dataToken: IToken = {
+export const dataToken: ITokenPayload = {
   data: {
     id: 1,
     email: 'arezu@pokemail.com',
@@ -11,7 +11,7 @@ export const dataToken: IToken = {
 
 export const userMock: IUser = {
   id: 1,
-  userName: 'Arezu',
+  username: 'Arezu',
   role: 'admin',
   email: 'arezu@pokemail.com',
   password: 'criptografado',
