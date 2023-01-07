@@ -20,7 +20,7 @@ describe('/teams', () => {
   let chaiHttpResponse: Response;
 
   describe('OK', () => {
-    test('Return OK', async () => {
+    it('Return OK', async () => {
       sinon.stub(Team, 'findAll').resolves(teamsMock as Team[]);
       chaiHttpResponse = await chai.request(app).get('/teams');
 
@@ -39,7 +39,7 @@ describe('/teams/:id', () => {
 
 
   describe('GET', () => {
-    test('RETURN BY ID', async () => {
+    it('RETURN BY ID', async () => {
       sinon.stub(Team, 'findByPk').resolves(teamsMock[0] as Team);
 
       chaiHttpResponse = await chai.request(app).get('/teams/1');
@@ -48,7 +48,7 @@ describe('/teams/:id', () => {
       expect(chaiHttpResponse.body).to.deep.equal(teamsMock[0]);
     }); 
 
-    test('NOT EXISTS', async () => {
+    it('NOT EXISTS', async () => {
       sinon.stub(Team, 'findByPk').resolves(undefined);
 
       chaiHttpResponse = await chai.request(app).get('/teams/1');

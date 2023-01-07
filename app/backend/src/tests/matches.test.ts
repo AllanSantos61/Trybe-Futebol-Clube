@@ -24,7 +24,7 @@ describe('/matches', () => {
       (Match.findAll as sinon.SinonStub).restore();
     });
 
-    test('RETURN OK', async () => {
+    it('RETURN OK', async () => {
       sinon.stub(Match, 'findAll').resolves(matchesMock as unknown[] as Match[]);
 
       chaiHttpResponse = await chai.request(app).get('/matches');
@@ -33,7 +33,7 @@ describe('/matches', () => {
       expect(chaiHttpResponse.body).to.deep.equal(matchesMock);
     }); 
 
-    test('RETURN IN PROGRESS', async () => {
+    it('RETURN IN PROGRESS', async () => {
       sinon.stub(Match, 'findAll').resolves([matchesMock[1]] as unknown[] as Match[]);
 
       chaiHttpResponse = await chai.request(app).get('/matches?inProgress=true');
@@ -42,7 +42,7 @@ describe('/matches', () => {
       expect(chaiHttpResponse.body).to.deep.equal([matchesMock[1]]);
     });
     
-    test('RETURN NOT PROGRESS', async () => {
+    it('RETURN NOT PROGRESS', async () => {
       sinon.stub(Match, 'findAll').resolves([matchesMock[0]] as unknown[] as Match[]);
 
       chaiHttpResponse = await chai.request(app).get('/matches?inProgress=false');
@@ -54,7 +54,7 @@ describe('/matches', () => {
 
   describe('POST', () => {
     describe('OK', () => {
-      test('CREATE', async () => {
+      it('CREATE', async () => {
         sinon.stub(jwt, 'verify').resolves({ id: 1 });
         sinon.stub(Match, 'create').resolves(newMatchResponseMock as Match);
 
@@ -80,7 +80,7 @@ describe('/matches', () => {
           (jwt.verify as sinon.SinonStub).restore();
         });
 
-        test('EQUAL', async () => {
+        it('EQUAL', async () => {
           chaiHttpResponse = await chai.request(app)
             .post('/matches')
             .send(invalidMatchesMock[0])
@@ -92,7 +92,7 @@ describe('/matches', () => {
           });
         }); 
 
-        test('TEAM NOT EXIST', async () => {
+        it('TEAM NOT EXIST', async () => {
           chaiHttpResponse = await chai.request(app)
             .post('/matches')
             .send(invalidMatchesMock[1])
@@ -104,7 +104,7 @@ describe('/matches', () => {
           });
         }); 
 
-        test('MISSING FIELDS', async () => {
+        it('MISSING FIELDS', async () => {
           chaiHttpResponse = await chai.request(app)
             .post('/matches')
             .send(missingFieldsMock)
@@ -118,7 +118,7 @@ describe('/matches', () => {
       });
 
       describe('TOKEN', () => {
-        test('INVALID', async () => {
+        it('INVALID', async () => {
           chaiHttpResponse = await chai.request(app)
             .post('/matches')
             .send(newMatchMock)
@@ -143,7 +143,7 @@ describe('/matches/:id', () => {
     });
 
     describe('/matches/:id', () => {
-      test('EDIT OK', async () => {
+      it('EDIT OK', async () => {
         sinon.stub(Match, 'update').resolves([1]);
 
         chaiHttpResponse = await chai.request(app)
@@ -156,7 +156,7 @@ describe('/matches/:id', () => {
         });
       }); 
 
-      test('UPDATE FAIL', async () => {
+      it('UPDATE FAIL', async () => {
         sinon.stub(Match, 'update').resolves([-1]);
 
         chaiHttpResponse = await chai.request(app).patch('/matches/1/');
@@ -169,7 +169,7 @@ describe('/matches/:id', () => {
     });
 
     describe('/matches/:id/finish', () => {
-      test('OK', async () => {
+      it('OK', async () => {
         sinon.stub(Match, 'update').resolves([1]);
 
         chaiHttpResponse = await chai.request(app).patch('/matches/1/finish')
@@ -180,14 +180,14 @@ describe('/matches/:id', () => {
         });
       }); 
 
-      test('FAIL', async () => {
+      it('FAIL', async () => {
         sinon.stub(Match, 'update').resolves([-1]);
 
         chaiHttpResponse = await chai.request(app).patch('/matches/1/finish')
     
         expect(chaiHttpResponse.status).to.be.equal(StatusCodes.NOT_FOUND);
         expect(chaiHttpResponse.body).to.deep.equal({
-          message: 'Update unsuccessful',
+          message: 'Update unsuccessful!',
         });
       }); 
     });

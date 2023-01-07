@@ -30,7 +30,7 @@ describe('/login', () => {
     });
 
     describe('OK', () => {
-      test('Login OK', async () => {
+      it('Login OK', async () => {
         sinon.stub(User, 'findOne').resolves(userMock as User);
         sinon.stub(jsonwebtoken, 'sign').resolves('generatedToken');
         sinon.stub(bcryptjs, 'compare').resolves(true);
@@ -118,7 +118,7 @@ describe('/login/validate', () => {
       (jwt.verify as sinon.SinonStub).restore();
     });
 
-    test('RETURN', async () => {
+    it('RETURN', async () => {
       sinon.stub(User, 'findOne').resolves(userMock as User);
 
       chaiHttpResponse = await chai
@@ -132,7 +132,7 @@ describe('/login/validate', () => {
       });
     }); 
 
-    test('NOT EXISTS', async () => {
+    it('NOT EXISTS', async () => {
       sinon.stub(User, 'findOne').resolves(undefined);
 
       chaiHttpResponse = await chai

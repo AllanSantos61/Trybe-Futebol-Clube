@@ -68,11 +68,11 @@ export default class MatchService implements IMatchService {
       { inProgress: false },
       { where: { id } },
     );
-    if (result !== 1) throw new HttpException(404, 'Update unsuccessful');
+    if (result !== 1) throw new HttpException(404, 'Update unsuccessful!');
   }
 
   async update(values: IUpMatch, id: number): Promise<void> {
     const [result] = await this._matchModel.update(values, { where: { id } });
-    if (result !== 1) throw new HttpException(404, 'Update unsuccessful');
+    if (result !== 1) throw new HttpException(404, 'Update unsuccessful!');
   }
 }

@@ -18,7 +18,7 @@ describe('/leaderboard', () => {
   let chaiHttpResponse: Response;
 
   describe('GET', () => {
-    test('RETURN OK', async () => {
+    it('RETURN OK', async () => {
       chaiHttpResponse = await chai.request(app).get('/leaderboard');
 
       expect(chaiHttpResponse.status).to.be.equal(StatusCodes.OK);
@@ -26,7 +26,7 @@ describe('/leaderboard', () => {
   });
 
   describe('/leaderboard/home', () => {
-    test('RETURN HOME', async () => {
+    it('RETURN HOME', async () => {
       chaiHttpResponse = await chai.request(app).get('/leaderboard/home');
 
       expect(chaiHttpResponse.status).to.be.equal(StatusCodes.OK);
@@ -34,7 +34,7 @@ describe('/leaderboard', () => {
   });
 
   describe('/leaderboard/away', () => {
-    test('RETURN AWAY', async () => {
+    it('RETURN AWAY', async () => {
       chaiHttpResponse = await chai.request(app).get('/leaderboard/away');
 
       expect(chaiHttpResponse.status).to.be.equal(StatusCodes.OK);
