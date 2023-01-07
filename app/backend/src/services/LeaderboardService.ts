@@ -73,8 +73,8 @@ export default class LeaderboardService implements ILeaderboardService {
       : LeaderboardService.awayTeamPoints(matches);
 
     const totalLosses = LeaderboardService.isHomeTeam(team)
-      ? LeaderboardService.homeTeamPoints(matches)
-      : LeaderboardService.awayTeamPoints(matches);
+      ? LeaderboardService.awayTeamPoints(matches)
+      : LeaderboardService.homeTeamPoints(matches);
 
     const totalDraws = LeaderboardService.drawPoints(matches);
     const totalPoints = totalVictories * 3 + totalDraws;
@@ -98,8 +98,8 @@ export default class LeaderboardService implements ILeaderboardService {
       : goals.awayGoals;
 
     const goalsOwn = LeaderboardService.isHomeTeam(team)
-      ? goals.homeGoals
-      : goals.awayGoals;
+      ? goals.awayGoals
+      : goals.homeGoals;
 
     const goalsBalance = goalsFavor - goalsOwn;
 
